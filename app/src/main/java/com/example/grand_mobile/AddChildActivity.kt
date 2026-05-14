@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.grand_mobile.databinding.ActivityAddChildBinding
 
 class AddChildActivity : AppCompatActivity() {
-    // Pertemuan 3: Penerapan ViewBinding
     private lateinit var binding: ActivityAddChildBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,11 +14,12 @@ class AddChildActivity : AppCompatActivity() {
         binding = ActivityAddChildBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Setup ActionBar
+        // Setup Toolbar sebagai ActionBar
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.title = getString(R.string.add_child)
 
-        // Pertemuan 2: Event Listener
         binding.btnSave.setOnClickListener {
             validateAndSave()
         }
@@ -31,10 +31,8 @@ class AddChildActivity : AppCompatActivity() {
         val gender = if (binding.rbMale.isChecked) "Laki-laki" else "Perempuan"
 
         if (name.isEmpty() || parent.isEmpty()) {
-            // Pertemuan 4: Feedback Mechanism (Toast)
             Toast.makeText(this, getString(R.string.error_empty_fields), Toast.LENGTH_SHORT).show()
         } else {
-            // Pertemuan 4: Alert Dialog
             showConfirmationDialog(name, parent, gender)
         }
     }
@@ -44,7 +42,6 @@ class AddChildActivity : AppCompatActivity() {
             .setTitle("Konfirmasi Simpan")
             .setMessage("Apakah data $name ($gender) sudah benar?")
             .setPositiveButton("Ya") { _, _ ->
-                // Di sini biasanya simpan ke database
                 Toast.makeText(this, getString(R.string.success_save), Toast.LENGTH_LONG).show()
                 finish()
             }
@@ -53,7 +50,7 @@ class AddChildActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 }

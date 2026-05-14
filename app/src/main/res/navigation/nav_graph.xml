@@ -10,16 +10,25 @@
         android:name="com.example.grand_mobile.ui.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_list"
+        android:name="com.example.grand_mobile.ui.ListFragment"
+        android:label="@string/data_anak"
+        tools:layout="@layout/fragment_list" />
+
     <fragment
         android:id="@+id/nav_info"
         android:name="com.example.grand_mobile.ui.InfoFragment"
         android:label="@string/info_kesehatan"
         tools:layout="@layout/fragment_info" />
+
     <fragment
         android:id="@+id/nav_about"
         android:name="com.example.grand_mobile.ui.AboutFragment"
         android:label="@string/menu_about"
         tools:layout="@layout/fragment_about" />
+
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.grand_mobile.ui.ProfileFragment"

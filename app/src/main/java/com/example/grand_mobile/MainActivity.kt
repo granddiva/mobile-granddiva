@@ -7,14 +7,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.grand_mobile.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,18 +28,23 @@ class MainActivity : AppCompatActivity() {
         // Setup Toolbar
         setSupportActionBar(binding.toolbar)
 
-        // Setup Bottom Navigation
+        // Setup Bottom Navigation dengan NavController yang lebih stabil
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         
         binding.bottomNavigation.setupWithNavController(navController)
         
-        // Connect Toolbar with Navigation (Home, About, Profile as top-level destinations)
-        val appBarConfiguration = AppBarConfiguration(
+        // Konfigurasi AppBar agar tidak memunculkan tombol back pada menu utama
+        appBarConfiguration = AppBarConfiguration(
             setOf(R.id.nav_home, R.id.nav_about, R.id.nav_profile)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    // Penting: Agar tombol "Back" di Toolbar berfungsi dengan baik
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
