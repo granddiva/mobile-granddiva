@@ -108,6 +108,16 @@
                 android:textAllCaps="false"
                 android:textSize="16sp" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegisterGmail"
+                style="@style/RoundedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Register With Gmail"
+                android:textAllCaps="false"
+                android:textSize="16sp" />
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

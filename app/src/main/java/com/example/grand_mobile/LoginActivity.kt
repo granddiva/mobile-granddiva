@@ -1,48 +1,62 @@
 package com.example.grand_mobile
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.Toast
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.example.grand_mobile.databinding.ActivityLoginBinding
+import com.example.grand_mobile.ui.RegisterGmailActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+
+    private lateinit var etUsername: EditText
+    private lateinit var etPassword: EditText
+    private lateinit var btnLogin: Button
+    private lateinit var btnRegisterGmail: Button
+
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_login)
 
-        sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        etUsername = findViewById(R.id.etUsername)
+        etPassword = findViewById(R.id.etPassword)
+        btnLogin = findViewById(R.id.btnLogin)
+        btnRegisterGmail = findViewById(R.id.btnRegisterGmail)
 
-        binding.btnLogin.setOnClickListener {
-            val username = binding.etUsername.text.toString()
-            val password = binding.etPassword.text.toString()
+        sharedPreferences = getSharedPreferences("USER_DATA", MODE_PRIVATE)
 
-            // Dummy login logic (Pertemuan 2: Event Listener)
-            if (username == "admin" && password == "admin123") {
-                // Save login status (Requested: login tersimpan)
-                saveLoginStatus(true)
-                
-                Toast.makeText(this, "Login Berhasil", Toast.LENGTH_SHORT).show()
-                
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+        btnLogin.setOnClickListener {
+
+            val username = etUsername.text.toString()
+            val password = etPassword.text.toString()
+
+            val savedUsername = sharedPreferences.getString("username", "")
+            val savedPassword = sharedPreferences.getString("password", "")
+
+            if ((username == password && username.isNotEmpty()) ||
+                (username == savedUsername && password == savedPassword && username.isNotEmpty())
+            ) {
+
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
+
             } else {
-                // Feedback Mechanism (Pertemuan 4)
-                Toast.makeText(this, getString(R.string.error_invalid_login), Toast.LENGTH_SHORT).show()
+
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("Login Gagal")
+                    .setMessage("Username atau Password salah")
+                    .setPositiveButton("OK", null)
+                    .show()
             }
         }
-    }
 
-    private fun saveLoginStatus(isLoggedIn: Boolean) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("is_logged_in", isLoggedIn)
-        editor.apply()
+        btnRegisterGmail.setOnClickListener {
+
+            startActivity(Intent(this, RegisterGmailActivity::class.java))
+        }
     }
 }

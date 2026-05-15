@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnNext" type="id" />
+    <item name="etEmail" type="id" />
+    <item name="etNama" type="id" />
+    <item name="btnRegister" type="id" />
+</resources>
